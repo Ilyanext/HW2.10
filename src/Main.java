@@ -235,16 +235,25 @@ public class Main {
         System.out.println(supplier.get());
     }
 
-      public static void test(int x) {
+    public static void funTrue(int x) {
         Function<Integer, String> ifTrue = r -> r + " положительное число!";
-        Function<Integer, String> ifFalse = r -> r + " отрицательное число!";
-        Predicate<Integer> condition = t -> {
+        System.out.println(ifTrue.apply(x));
+    }
 
+    public static void funFalse(int x) {
+        Function<Integer, String> ifFalse = r -> r + " отрицательное число";
+        System.out.println(ifFalse.apply(x));
+    }
+
+    public static void test(int x) {
+
+        Predicate<Integer> condition = t -> {
             if (t >= 0) {
-                ifTrue.apply(x);
+                funTrue(x);
             } else {
-                ifFalse.apply(x);
+                funFalse(x);
             }
+
             return false;
         };
         System.out.println(condition.test(x));
@@ -292,6 +301,6 @@ public class Main {
         print();
 //        ternaryOperator(4, );
         println();
-        test(-1);
+        test(1);
     }
 }
