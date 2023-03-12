@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class Main {
     public static class Numbers {
@@ -103,8 +104,7 @@ public class Main {
             public boolean test(int numbers) {
                 if (numbers >= 0) {
                     return true;
-                } else if (numbers < 0)
-                    return false;
+                }
                 return false;
             }
         };
@@ -235,30 +235,15 @@ public class Main {
         System.out.println(supplier.get());
     }
 
-    public static void funTrue(int x) {
-        Function<Integer, String> ifTrue = r -> r + " положительное число!";
-        System.out.println(ifTrue.apply(x));
-    }
+    static Predicate<Integer> proverka = t -> t >= 0;
+    static Function<Integer, String> function1 = x -> x + " положительное число!";
+    static Function<Integer, String> function2 = x -> x + " отрицательное число!";
 
-    public static void funFalse(int x) {
-        Function<Integer, String> ifFalse = r -> r + " отрицательное число";
-        System.out.println(ifFalse.apply(x));
-    }
-
-    public static void test(int x) {
-
-        Predicate<Integer> condition = t -> {
-            if (t >= 0) {
-                funTrue(x);
-            } else {
-                funFalse(x);
-            }
-
-            return false;
-        };
-        System.out.println(condition.test(x));
-        System.out.println();
-
+    public static <T, U> Function<T, U> ternaryOperator(
+            Predicate<? super T> condition,
+            Function<? super T, ? extends U> ifTrue,
+            Function<? super T, ? extends U> ifFalse) {
+        return x -> (condition.test((Integer) x) ? ifTrue.apply(x) : ifFalse.apply(x));
     }
 
     @FunctionalInterface
@@ -299,8 +284,7 @@ public class Main {
         println();
         task4_lambda();
         print();
-//        ternaryOperator(4, );
         println();
-        test(1);
+        System.out.println(ternaryOperator(proverka, function1, function2).apply(-2));
     }
 }
